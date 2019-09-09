@@ -1,4 +1,4 @@
-var hex = require("../hex");
+var hex = require("../src/hex");
 var assert = require("assert");
 
 describe("hex", function() {

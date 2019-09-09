@@ -1,5 +1,5 @@
-var blocks = require("../blocks");
-var hex = require("../hex");
+var blocks = require("../src/blocks");
+var hex = require("../src/hex");
 var assert = require("assert");
 
 describe("blocks", function() {

@@ -1,6 +1,6 @@
 var assert = require("assert");
-var aes = require("../aes");
-var hex = require("../hex");
+var aes = require("../src/aes");
+var hex = require("../src/hex");
 
 describe("aes", function() {
   describe("#encrypt()", function() {

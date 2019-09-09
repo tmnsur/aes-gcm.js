@@ -1,5 +1,5 @@
-var gcm = require("../gcm");
-var hex = require("../hex");
+var gcm = require("../src/gcm");
+var hex = require("../src/hex");
 var assert = require("assert");
 
 describe("gcm", function() {

@@ -1,6 +1,6 @@
-var bytes = require("../bytes");
-var blocks = require("../blocks");
-var hex = require("../hex");
+var bytes = require("../src/bytes");
+var blocks = require("../src/blocks");
+var hex = require("../src/hex");
 var assert = require("assert");
 
 describe("bytes", function() {
