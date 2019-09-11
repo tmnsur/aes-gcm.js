@@ -1,12 +1,12 @@
 {
-  "name": "aes-gcm",
+  "name": "aes-gcm.js",
   "version": "1.0.0",
-  "description": "",
+  "description": "A zero dependency AES(128, 192, 256) with GCM mode of operation implementation in JavaScript",
   "main": "",
   "scripts": {
     "test": "mocha"
   },
-  "author": "",
+  "author": "Taner Mansur <tmnsur@gmail.com> (https://github.com/tmnsur)",
   "license": "ISC",
   "devDependencies": {
     "mocha": "^6.2.0",
