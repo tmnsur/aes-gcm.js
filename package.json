@@ -9,7 +9,7 @@
   "author": "Taner Mansur <tmnsur@gmail.com> (https://github.com/tmnsur)",
   "license": "ISC",
   "devDependencies": {
-    "mocha": "^6.2.0",
+    "mocha": "^10.2.0",
     "webpack": "^4.39.3",
     "webpack-cli": "^3.3.8"
   }
