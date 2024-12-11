@@ -101,8 +101,64 @@
     };
   };
 
+  function authenticatedDecryption(cipherText, additionalAuthenticatedData, initializationVector, authenticationTag, key) {
+    var preCounterBlock;
+    var plainText;
+    var plainTag;
+    var hashSubKey = imports.aes.encrypt(imports.blocks.createZeroBlock(16), key);
+    var res;
+    const compareArrays = (a, b) =>
+      a.length === b.length &&
+      a.every((element, index) => element === b[index]);
+
+    preCounterBlock = [].concat(initializationVector);
+    if(12 === initializationVector.length) {
+      preCounterBlock = preCounterBlock.concat(imports.blocks.createZeroBlock(3)).concat([0x01]);
+    } else {
+      if(0 !== initializationVector.length % 16) {
+        preCounterBlock = preCounterBlock.concat(imports.blocks.createZeroBlock(16 - (initializationVector.length % 16)));
+      }
+
+      preCounterBlock = preCounterBlock.concat(imports.blocks.createZeroBlock(8));
+
+      preCounterBlock = ghash(preCounterBlock.concat(imports.blocks.createZeroBlock(4)).concat(imports.bytes.getBytes(initializationVector.length * 8)), hashSubKey);
+    }
+
+    plainText = gctr(cipherText, imports.blocks.incrementLeastSignificantThirtyTwoBits(preCounterBlock), key);
+
+    plainTag = additionalAuthenticatedData.slice();
+
+    if(0 === additionalAuthenticatedData.length) {
+      plainTag = plainTag.concat(imports.blocks.createZeroBlock(16));
+    } else if(0 !== additionalAuthenticatedData.length % 16) {
+      plainTag = plainTag.concat(imports.blocks.createZeroBlock(16 - (additionalAuthenticatedData.length % 16)));
+    }
+
+    plainTag = plainTag.concat(cipherText);
+
+    if(0 === cipherText.length) {
+      plainTag = plainTag.concat(imports.blocks.createZeroBlock(16));
+    } else if(0 !== cipherText.length % 16) {
+      plainTag = plainTag.concat(imports.blocks.createZeroBlock(16 - (cipherText.length % 16)));
+    }
+
+    plainTag = plainTag.concat(imports.blocks.createZeroBlock(4))
+        .concat(imports.bytes.getBytes(additionalAuthenticatedData.length * 8))
+        .concat(imports.blocks.createZeroBlock(4)).concat(imports.bytes.getBytes(cipherText.length * 8));
+
+    res = compareArrays(
+        gctr(ghash(plainTag, hashSubKey), preCounterBlock, key),
+        authenticationTag
+    );
+
+    return {
+      plainText: res ? plainText : []
+    }
+  };
+
   return {
     ghash: ghash,
-    encrypt: authenticatedEncryption
+    encrypt: authenticatedEncryption,
+    decrypt: authenticatedDecryption
   };
 }));

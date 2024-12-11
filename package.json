@@ -1,6 +1,6 @@
 {
   "name": "aes-gcm.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A zero dependency AES(128, 192, 256) with GCM mode of operation implementation in JavaScript",
   "main": "",
   "scripts": {
